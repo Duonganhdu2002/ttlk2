@@ -179,7 +179,7 @@ export default function ProductsPage() {
                     onChange={(e) => setFormData({...formData, price: e.target.value})}
                     required
                     min="0"
-                    step="1000"
+                    step="1"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     placeholder="100000"
                   />
