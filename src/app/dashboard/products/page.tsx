@@ -23,6 +23,7 @@ export default function ProductsPage() {
   const [error, setError] = useState<string | null>(null)
   
   const [formData, setFormData] = useState({
+    name: '',
     image_url: '',
     price: '',
     product_link: '',
@@ -53,13 +54,14 @@ export default function ProductsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!formData.image_url || !formData.price || !formData.product_link || !formData.category_id) {
+    if (!formData.name || !formData.image_url || !formData.price || !formData.product_link || !formData.category_id) {
       setError('Vui lòng điền đầy đủ thông tin')
       return
     }
 
     try {
       const productData = {
+        name: formData.name,
         image_url: formData.image_url,
         price: parseFloat(formData.price),
         product_link: formData.product_link,
@@ -95,6 +97,7 @@ export default function ProductsPage() {
   const openEditForm = (product: Product) => {
     setEditingProduct(product)
     setFormData({
+      name: product.name || '',
       image_url: product.image_url || '',
       price: product.price?.toString() || '',
       product_link: product.product_link || '',
@@ -107,6 +110,7 @@ export default function ProductsPage() {
     setShowForm(false)
     setEditingProduct(null)
     setFormData({
+      name: '',
       image_url: '',
       price: '',
       product_link: '',
@@ -155,6 +159,20 @@ export default function ProductsPage() {
               </h3>
 
               <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tên sản phẩm
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Nhập tên sản phẩm"
+                  />
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Link hình ảnh
@@ -269,6 +287,9 @@ export default function ProductsPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-lg font-medium text-gray-900">
+                            {product.name || 'Tên sản phẩm'}
+                          </p>
+                          <p className="text-md font-semibold text-green-600">
                             {formatPrice(product.price || 0)}
                           </p>
                           <p className="text-sm text-gray-500">
